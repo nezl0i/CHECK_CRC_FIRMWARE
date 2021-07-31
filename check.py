@@ -1,9 +1,15 @@
 import sys
+from sys import platform
 from collections import deque
 from modbus_crc16 import crc16
-from colors import Colors
 
-c = Colors()
+
+if platform.startswith('win'):
+    from colors import WinColors
+    c = WinColors()
+else:
+    from colors import Colors
+    c = Colors()
 
 
 class CheckCRC:
@@ -49,20 +55,18 @@ class CheckCRC:
                              f"{format(self.hi_byte, '02X')}{c.END}\r")
             sys.stdout.flush()
         if flag:
-            return print(f"Перебор не требуется.\n"
-                         f"CRC ПО - {c.FAIL}{self._CHK_CRC}{c.END}.\n"
-                         f"Контрольные байты - "
-                         f"{c.FAIL}{format(self.dump[-2], '02X')} {format(self.dump[-1], '02X')}{c.END}")
+            print(f"Перебор не требуется.\n"
+                  f"CRC ПО - {c.FAIL}{self._CHK_CRC}{c.END}\n"
+                  f"Контрольные байты - "
+                  f"{c.FAIL}{format(self.dump[-2], '02X')} {format(self.dump[-1], '02X')}{c.END}")
         else:
-            return print(f"Контрольные байты - "
-                         f"{c.FAIL}{format(self.lo_byte, '02X')} {format(self.hi_byte, '02X')}{c.END}\n"
-                         f"CRC ПО - {c.FAIL}{self._CHK_CRC}.{c.END}")
+            print(f"Контрольные байты - "
+                  f"{c.FAIL}{format(self.lo_byte, '02X')} {format(self.hi_byte, '02X')}{c.END}\n"
+                  f"CRC ПО - {c.FAIL}{self._CHK_CRC}.{c.END}")
 
 
 if __name__ == '__main__':
-
     file_CRC_PO = 'CRC_PO_2018.txt'
     file_CRC_UPDATE = 'CRC_UPDATE.txt'
 
-    CheckCRC(file_CRC_PO, lo_byte=0x9A)
-
+    CheckCRC(file_CRC_PO, lo_byte=0x9E)
