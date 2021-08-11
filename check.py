@@ -68,7 +68,7 @@ class CheckCRC:
 
 
 if __name__ == '__main__':
-    file_CRC_PO = 'CRC_PO_2018.txt'
-    file_CRC_UPDATE = 'CRC_UPDATE.txt'
+    file_CRC_PO = 'CRC_PO_2021.txt'
+    file_CRC_UPDATE = 'CRC_UPDATE_2021.txt'
 
-    CheckCRC(file_CRC_PO, lo_byte=0x9E)
+    CheckCRC(file_CRC_UPDATE, lo_byte=0x00)
