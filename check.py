@@ -50,7 +50,7 @@ class CheckCRC:
                     print(f"{c.FAIL}Не удалось определить значение.{c.END}")
                     sys.exit()
             checked[-2], checked[-1] = self.lo_byte, self.hi_byte
-            self._CHK_CRC = crc16(checked, int(int(bad_crc[:2], 16)), int(int(bad_crc[2:], 16)))
+            self._CHK_CRC = crc16(checked, int(bad_crc[:2], 16), int(bad_crc[2:], 16))
 
             sys.stdout.write(f"Пробуем значение - "
                              f"{c.BLUE}{format(self.lo_byte, '02X')} "
