@@ -35,6 +35,8 @@ class CheckCRC:
         self.checked_crc()
 
     def checked_crc(self):
+        bad_crc = self._CHK_CRC
+        checked = [self.lo_byte, self.hi_byte]
         flag = True
         while self._CHK_CRC != self.__CRC_PO:
             flag = False
@@ -47,8 +49,8 @@ class CheckCRC:
                 else:
                     print(f"{c.FAIL}Не удалось определить значение.{c.END}")
                     sys.exit()
-            self.dump[-2], self.dump[-1] = self.lo_byte, self.hi_byte
-            self._CHK_CRC = crc16(self.dump)
+            checked[-2], checked[-1] = self.lo_byte, self.hi_byte
+            self._CHK_CRC = crc16(checked, int(int(bad_crc[:2], 16)), int(int(bad_crc[2:], 16)))
 
             sys.stdout.write(f"Пробуем значение - "
                              f"{c.BLUE}{format(self.lo_byte, '02X')} "
